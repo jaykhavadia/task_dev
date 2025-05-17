@@ -18,7 +18,7 @@ export function SocketProvider({ children }) {
       return;
     }
     
-    const newSocket = io('http://localhost:8080', {
+    const newSocket = io('https://task-dev-73yh.onrender.com', {
       auth: { token: localStorage.getItem('auth_token') },
     });
     
