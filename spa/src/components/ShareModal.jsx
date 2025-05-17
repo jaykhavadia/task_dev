@@ -79,9 +79,9 @@ export default function ShareModal({ note, onClose }) {
         </Typography>
         <List dense>
           {note.collaborators.length === 0 && <Typography>No one yet.</Typography>}
-          {note.collaborators.map((collab) => (
+          {note.collaborators.map((collab, index) => (
             <ListItem
-              key={collab.userEmail}
+              key={index}
               secondaryAction={
                 <IconButton edge="end" onClick={() => handleRemoveShare(collab.userEmail)}>
                   <DeleteIcon />

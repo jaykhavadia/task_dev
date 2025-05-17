@@ -15,7 +15,7 @@ export function NotesProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [notifications, setNotifications] = useState([]);
 
-const fetchNotes = async (page = 1, limit = 10, search = '') => {
+  const fetchNotes = async (page = 1, limit = 10, search = '') => {
     setLoading(true);
     const params = new URLSearchParams({ page, limit, search });
     const data = await apiFetch(`/notes?${params.toString()}`);

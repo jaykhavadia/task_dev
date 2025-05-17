@@ -37,12 +37,12 @@ export default function NoteEditor({ note, onClose }) {
     note?.collaborators.forEach(
       (collab) => {
         if (collab.userId === user?._id) {
-          console.log("🚀 ~ useEffect ~ collab:", collab)
           setHasWritePermission(() => collab.permission === 'write');
-        } else {
-          setHasWritePermission(() => note.createdBy._id === user?._id);
         }
       })
+    if (note?.createdBy._id === user?._id) {
+      setHasWritePermission(true);
+    }
     setError(null);
   }, [note]);
 
@@ -57,7 +57,7 @@ export default function NoteEditor({ note, onClose }) {
     setError(null);
     try {
       if (isEditMode) {
-        await updateNote(note.id, { title, content });
+        await updateNote(note._id, { title, content });
       } else {
         await createNote({ title, content });
       }

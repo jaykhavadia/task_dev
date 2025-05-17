@@ -18,7 +18,7 @@ import Header from '../components/Header';
 import NotificationToast from '../components/NotificationToast';
 
 export default function Dashboard() {
-  const { myNotes, sharedNotes, loading, notifications } = useContext(NotesContext);
+  const { myNotes, sharedNotes, loading, notifications, deleteNote } = useContext(NotesContext);
   const [editingNote, setEditingNote] = useState(null);
   const [sharingNote, setSharingNote] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -74,6 +74,7 @@ export default function Dashboard() {
                   <NoteCard
                     note={note}
                     onEdit={() => setEditingNote(note)}
+                    onDelete={() => deleteNote(note._id)}
                     onShare={() => setSharingNote(note)}
                     isReadOnly={tabIndex === 1}
                   />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -8,8 +8,19 @@ import {
   Chip,
   Stack,
 } from '@mui/material';
+import { AuthContext } from '../context/AuthContext';
 
-export default function NoteCard({ note, onEdit, onShare, isReadOnly }) {
+export default function NoteCard({ note, onEdit, onDelete, onShare, isReadOnly }) {
+  const { user } = useContext(AuthContext);
+  const [hasWritePermission, setHasWritePermission] = useState(false)
+  useEffect(() => {
+    note?.collaborators.forEach(
+      (collab) => {
+        if (collab.userId === user?._id) {
+          setHasWritePermission(() => collab.permission === 'write');
+        }
+      })
+  }, [user, note])
   return (
     <Card variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <CardContent sx={{ flexGrow: 1 }}>
@@ -28,8 +39,11 @@ export default function NoteCard({ note, onEdit, onShare, isReadOnly }) {
       </CardContent>
       <CardActions>
         <Button size="small" onClick={onEdit}>
-          Edit
+          {hasWritePermission ? 'Edit' : 'View'}
         </Button>
+        {note?.createdBy._id === user?._id && <Button size="small" onClick={onDelete}>
+          Delete
+        </Button>}
         {!isReadOnly &&
           <Button size="small" onClick={onShare}>
             Share
